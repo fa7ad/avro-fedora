@@ -3,10 +3,10 @@ Avro phonetic implementation for Linux in IBus.
 
 ## Installation from source (m1)
 
-1. Open terminal/package manager and install following packages:
-
+1. Open terminal/package manager and install the dependencies:
+```bash
 	yum install autoconf automake make gcc gjs ibus ibus-libs ibus-devel gjs-devel dbus-glib-devel
-
+```
 2. Now Clone the repo and install
 ```bash
 	git clone git://github.com/fa7ad/ibus-avro-fedora.git

@@ -24,7 +24,7 @@ Avro phonetic implementation for Linux in IBus.
  2. Navigate to **Region & Language** > *Input Sources*
  3. Click the add (**+**) button and add **Bengali (Avro Phonectic)**
  4. Close **Settings**
- 5. Open any text editor and press **::(super) + <space>** to switch to Bengali
+ 5. Open any text editor and press `::(super) + <space>` to switch to Bengali
  6. Enjoy typing in Bangla using Avro Phonetic
 
 ## Contributors

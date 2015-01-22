@@ -4,7 +4,8 @@ Avro phonetic implementation for Linux in IBus.
 ## Installation from source (m1)
 
 1. Open terminal/package manager and install following packages:
-`yum install autoconf automake make gcc gjs ibus ibus-libs ibus-devel gjs-devel dbus-glib-devel`
+
+	yum install autoconf automake make gcc gjs ibus ibus-libs ibus-devel gjs-devel dbus-glib-devel
 
 2. Now Clone the repo and install
 ```bash

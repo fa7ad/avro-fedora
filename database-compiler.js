@@ -1,49 +1,52 @@
 #!/usr/bin/env gjs
 
 /*
-    =============================================================================
-    *****************************************************************************
-    The contents of this file are subject to the Mozilla Public License
-    Version 1.1 (the "License"); you may not use this file except in
-    compliance with the License. You may obtain a copy of the License at
-    http://www.mozilla.org/MPL/
+ =============================================================================
+ *****************************************************************************
+ The contents of this file are subject to the Mozilla Public License
+ Version 1.1 (the "License"); you may not use this file except in
+ compliance with the License. You may obtain a copy of the License at
+ http://www.mozilla.org/MPL/
 
-    Software distributed under the License is distributed on an "AS IS"
-    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-    License for the specific language governing rights and limitations
-    under the License.
+ Software distributed under the License is distributed on an "AS IS"
+ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ License for the specific language governing rights and limitations
+ under the License.
 
-    The Original Code is jsAvroPhonetic
+ The Original Code is jsAvroPhonetic
 
-    The Initial Developer of the Original Code is
-    Mehdi Hasan Khan <mhasan@omicronlab.com>
+ The Initial Developer of the Original Code is
+ Mehdi Hasan Khan <mhasan@omicronlab.com>
 
-    Copyright (C) OmicronLab (http://www.omicronlab.com). All Rights Reserved.
+ Copyright (C) OmicronLab (http://www.omicronlab.com). All Rights Reserved.
 
 
-    Contributor(s): ______________________________________.
+ Contributor(s): ______________________________________.
 
-    *****************************************************************************
-    =============================================================================
-*/
+ *****************************************************************************
+ =============================================================================
+ */
 
 const gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gda = imports.gi.Gda;
 
-function DB () {}
+function DB() {
+}
 
 var database = {};
 var suffixDict = {};
 
 DB.prototype = {
-    
-	loadDb: function () {
-	    this._init();
-	    //TODO: Change path
-        this.connection = new Gda.Connection ({provider: Gda.Config.get_provider("SQLite"),
-                                               cnc_string:"DB_DIR=" + GLib.get_current_dir() + ";DB_NAME=Database.db3"});
-        this.connection.open ();
+
+    loadDb: function () {
+        this._init();
+        //TODO: Change path
+        this.connection = new Gda.Connection({
+            provider: Gda.Config.get_provider("SQLite"),
+            cnc_string: "DB_DIR=" + GLib.get_current_dir() + ";DB_NAME=Database.db3"
+        });
+        this.connection.open();
         //Vowels
         this._loadOneTable('A', database.w_a);
         this._loadOneTable('AA', database.w_aa);
@@ -93,52 +96,52 @@ DB.prototype = {
         this._loadOneTable('Y', database.w_y);
         this._loadOneTable('Z', database.w_z);
         this._loadOneTable('Khandatta', database.w_khandatta);
-        
+
         this._loadSuffix();
-        
-        this.connection.close ();
-  	},
 
-
-	unloadDb: function () {
-	    this._init();
-  	},
-
-    
-    _loadSuffix: function(){
-        if (this.connection){
-	        if (this.connection.is_opened){
-	            var dm = this.connection.execute_select_command ("select * from Suffix");
-                var iter = dm.create_iter();
-
-                while (iter.move_next ()) {
-                    suffixDict[Gda.value_stringify (iter.get_value_at (0))] = Gda.value_stringify (iter.get_value_at (1));
-                }
-	        }
-	    }
+        this.connection.close();
     },
 
-	_loadOneTable: function (tableName, wArray) {
-	    if (this.connection){
-	        if (this.connection.is_opened){
-	            var dm = this.connection.execute_select_command ("select * from " + tableName);
+
+    unloadDb: function () {
+        this._init();
+    },
+
+
+    _loadSuffix: function () {
+        if (this.connection) {
+            if (this.connection.is_opened) {
+                var dm = this.connection.execute_select_command("select * from Suffix");
                 var iter = dm.create_iter();
 
-                while (iter.move_next ()) {
-                    var w = Gda.value_stringify (iter.get_value_at (0));
+                while (iter.move_next()) {
+                    suffixDict[Gda.value_stringify(iter.get_value_at(0))] = Gda.value_stringify(iter.get_value_at(1));
+                }
+            }
+        }
+    },
+
+    _loadOneTable: function (tableName, wArray) {
+        if (this.connection) {
+            if (this.connection.is_opened) {
+                var dm = this.connection.execute_select_command("select * from " + tableName);
+                var iter = dm.create_iter();
+
+                while (iter.move_next()) {
+                    var w = Gda.value_stringify(iter.get_value_at(0));
                     wArray.push(w);
                 }
-	        }
-	    }
+            }
+        }
     },
 
 
-	_init: function () {
-	    
-	    database = {};
+    _init: function () {
+
+        database = {};
         suffixDict = {};
-	    
-	    database.w_a = [];
+
+        database.w_a = [];
         database.w_aa = [];
         database.w_i = [];
         database.w_ii = [];
@@ -186,15 +189,15 @@ DB.prototype = {
         database.w_y = [];
         database.w_z = [];
         database.w_khandatta = [];
-  	}
+    }
 }
 
-function _convertToUnicodeValue(input){
+function _convertToUnicodeValue(input) {
     var output = '';
-    
-    for (var i = 0; i < input.length; i++){
+
+    for (var i = 0; i < input.length; i++) {
         var charCode = input.charCodeAt(i);
-        if (charCode >= 255){
+        if (charCode >= 255) {
             output += '\\u0' + charCode.toString(16);
         } else {
             output += input.charAt(i);
@@ -204,54 +207,54 @@ function _convertToUnicodeValue(input){
 }
 
 
-function saveSuffix () {
+function saveSuffix() {
     try {
-        var file = gio.File.new_for_path ("suffixdict.js");
+        var file = gio.File.new_for_path("suffixdict.js");
 
-        if (file.query_exists (null)) {
-            file.delete (null);
+        if (file.query_exists(null)) {
+            file.delete(null);
         }
-        
+
         // Create a new file with this name
-        var file_stream = file.create (gio.FileCreateFlags.NONE, null);
-        
+        var file_stream = file.create(gio.FileCreateFlags.NONE, null);
+
         var json = JSON.stringify(suffixDict);
         json = "var db = " + _convertToUnicodeValue(json) + ";";
-        
+
         // Write text data to file
-        var data_stream =  gio.DataOutputStream.new (file_stream);
-        data_stream.put_string (json, null);
+        var data_stream = gio.DataOutputStream.new(file_stream);
+        data_stream.put_string(json, null);
 
     } catch (e) {
-        print ("Error: " +  e.message);
+        print("Error: " + e.message);
     }
 }
 
 
-function saveData () {
+function saveData() {
     try {
-        var file = gio.File.new_for_path ("avrodict.js");
+        var file = gio.File.new_for_path("avrodict.js");
 
-        if (file.query_exists (null)) {
-            file.delete (null);
+        if (file.query_exists(null)) {
+            file.delete(null);
         }
-        
+
         // Create a new file with this name
-        var file_stream = file.create (gio.FileCreateFlags.NONE, null);
-        
+        var file_stream = file.create(gio.FileCreateFlags.NONE, null);
+
         var json = JSON.stringify(database);
         json = "var tables = " + _convertToUnicodeValue(json) + ";";
-        
+
         // Write text data to file
-        var data_stream =  gio.DataOutputStream.new (file_stream);
-        data_stream.put_string (json, null);
+        var data_stream = gio.DataOutputStream.new(file_stream);
+        data_stream.put_string(json, null);
 
     } catch (e) {
-        print ("Error: " +  e.message);
+        print("Error: " + e.message);
     }
 }
 
-var __db = new DB ();
+var __db = new DB();
 __db.loadDb();
 saveData();
 saveSuffix();

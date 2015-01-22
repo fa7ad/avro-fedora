@@ -1,29 +1,29 @@
 /*
-    =============================================================================
-    *****************************************************************************
-    The contents of this file are subject to the Mozilla Public License
-    Version 1.1 (the "License"); you may not use this file except in
-    compliance with the License. You may obtain a copy of the License at
-    http://www.mozilla.org/MPL/
+ =============================================================================
+ *****************************************************************************
+ The contents of this file are subject to the Mozilla Public License
+ Version 1.1 (the "License"); you may not use this file except in
+ compliance with the License. You may obtain a copy of the License at
+ http://www.mozilla.org/MPL/
 
-    Software distributed under the License is distributed on an "AS IS"
-    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-    License for the specific language governing rights and limitations
-    under the License.
+ Software distributed under the License is distributed on an "AS IS"
+ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ License for the specific language governing rights and limitations
+ under the License.
 
-    The Original Code is ibus-avro
+ The Original Code is ibus-avro
 
-    The Initial Developer of the Original Code is
-    Sarim Khan <sarim2005@gmail.com>
+ The Initial Developer of the Original Code is
+ Sarim Khan <sarim2005@gmail.com>
 
-    Copyright (C) Sarim Khan (http://www.sarimkhan.com). All Rights Reserved.
+ Copyright (C) Sarim Khan (http://www.sarimkhan.com). All Rights Reserved.
 
 
-    Contributor(s): ______________________________________.
+ Contributor(s): ______________________________________.
 
-    *****************************************************************************
-    =============================================================================
-*/
+ *****************************************************************************
+ =============================================================================
+ */
 
 imports.searchPath.unshift('.');
 const Gio = imports.gi.Gio;
@@ -43,10 +43,10 @@ function runpref() {
     switch_preview = builder.get_object("switch_preview");
     switch_newline = builder.get_object("switch_newline");
     switch_dict = builder.get_object("switch_dict");
-    lutable_size = builder.get_object("lutable_size"); 
-    scale1 = builder.get_object("scale1"); 
+    lutable_size = builder.get_object("lutable_size");
+    scale1 = builder.get_object("scale1");
     cboxorient = builder.get_object("cboxorient");
-    
+
     switch_preview.connect("notify::active", validate);
     switch_newline.connect("notify::active", validate);
     switch_dict.connect("notify::active", validate);
@@ -61,14 +61,16 @@ function runpref() {
 
     validate();
 
-    prefwindow.connect ("destroy", function(){Gtk.main_quit()});
+    prefwindow.connect("destroy", function () {
+        Gtk.main_quit()
+    });
     prefwindow.show_all();
 
     Gtk.main();
 }
 
-function validate(){
-    if (!switch_preview.get_active()){
+function validate() {
+    if (!switch_preview.get_active()) {
         switch_newline.set_active(false);
         switch_dict.set_active(false);
 
@@ -85,7 +87,7 @@ function validate(){
 }
 
 //check if running standalone
-if(ARGV[0] == '--standalone'){
+if (ARGV[0] == '--standalone') {
     //running standalone, so no one to call me,calling myself
     runpref();
 }

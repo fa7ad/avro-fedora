@@ -1,44 +1,44 @@
 /*
-    =============================================================================
-    *****************************************************************************
-    The contents of this file are subject to the Mozilla Public License
-    Version 1.1 (the "License"); you may not use this file except in
-    compliance with the License. You may obtain a copy of the License at
-    http://www.mozilla.org/MPL/
+ =============================================================================
+ *****************************************************************************
+ The contents of this file are subject to the Mozilla Public License
+ Version 1.1 (the "License"); you may not use this file except in
+ compliance with the License. You may obtain a copy of the License at
+ http://www.mozilla.org/MPL/
 
-    Software distributed under the License is distributed on an "AS IS"
-    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-    License for the specific language governing rights and limitations
-    under the License.
+ Software distributed under the License is distributed on an "AS IS"
+ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ License for the specific language governing rights and limitations
+ under the License.
 
-    The Original Code is jsAvroPhonetic
+ The Original Code is jsAvroPhonetic
 
-    The Initial Developer of the Original Code is
-    Mehdi Hasan Khan <mhasan@omicronlab.com>
+ The Initial Developer of the Original Code is
+ Mehdi Hasan Khan <mhasan@omicronlab.com>
 
-    Copyright (C) OmicronLab (http://www.omicronlab.com). All Rights Reserved.
+ Copyright (C) OmicronLab (http://www.omicronlab.com). All Rights Reserved.
 
 
-    Contributor(s): ______________________________________.
+ Contributor(s): ______________________________________.
 
-    *****************************************************************************
-    =============================================================================
-*/
+ *****************************************************************************
+ =============================================================================
+ */
 
 
 const db = imports.avrodict;
 const RegexServer = imports.avroregexlib;
 const utfconv = imports.utf8;
 
-function DBSearch () {
+function DBSearch() {
     this._init();
 }
 
 DBSearch.prototype = {
-    
-	search: function (enText) {
-        
-        var lmc = enText.toLowerCase().charAt(0); 
+
+    search: function (enText) {
+
+        var lmc = enText.toLowerCase().charAt(0);
         var tableList = [];
         switch (lmc) {
             case 'a':
@@ -121,48 +121,48 @@ DBSearch.prototype = {
                 break;
             default:
                 break;
-         }
-         
-         var pattern = this._regex.parse(enText);
-         pattern = '^' + pattern + '$';
-         
+        }
+
+        var pattern = this._regex.parse(enText);
+        pattern = '^' + pattern + '$';
+
         var retWords = [];
-        
-        for(i in tableList) {
-             var table = 'w_' + tableList[i];
-             retWords = retWords.concat(this._searchInArray(pattern, db.tables[table]));
-         }
-        
+
+        for (i in tableList) {
+            var table = 'w_' + tableList[i];
+            retWords = retWords.concat(this._searchInArray(pattern, db.tables[table]));
+        }
+
         return retWords;
-  	},
-  	
-  	
-  	_searchInArray: function(pattern, wArray){
+    },
+
+
+    _searchInArray: function (pattern, wArray) {
         var retWords = [];
         var word = '';
         var re = new RegExp(pattern);
 
-        for (w in wArray){
+        for (w in wArray) {
             word = wArray[w];
-            if (re.test(word)){
+            if (re.test(word)) {
                 retWords.push(word);
             }
         }
-  	    return retWords;
-  	},
+        return retWords;
+    },
 
 
-	_printWords: function (enText) {
-	    var words = this.search(enText);
-	    for (w in words){
+    _printWords: function (enText) {
+        var words = this.search(enText);
+        for (w in words) {
             print(words[w]);
         }
-  	},
-  	
-  	
-	_init: function () {
+    },
+
+
+    _init: function () {
         this._regex = new RegexServer.AvroRegex();
-  	}
+    }
 }
 
 

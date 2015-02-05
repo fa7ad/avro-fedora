@@ -3,11 +3,13 @@ Avro phonetic implementation for Linux in IBus.
 
 ## Installation from source (m1)
 
-1. Open terminal/package manager and install the dependencies:  
-	`yum install autoconf automake make gcc gjs ibus ibus-libs ibus-devel gjs-devel dbus-glib-devel`
-2. Now Clone the repo and install
+* Open terminal/package manager and install the dependencies:
 ```bash
-	git clone git://github.com/fa7ad/ibus-avro-fedora.git
+  yum install autoconf automake make gcc gjs ibus ibus-libs ibus-devel gjs-devel dbus-glib-devel
+```
+* Now Clone the repo and install
+```bash
+	git clone git@bitbucket.org:fa7ad/avro-fedora.git
 	cd ibus-avro-fedora
 	aclocal && autoconf && automake --add-missing
 	./configure --prefix=/usr
@@ -35,6 +37,6 @@ __IBus Engine__ by [__Sarim Khan__](https://github.com/sarim)
 
 __Avro Phonetic Dictionary Search Library__ by [__Mehdi Hasan Khan__](https://github.com/omicronlab)
 
-__Fedora Build and minor adjustments__ by [__Fahad Hossain__](http://github.com/fa7ad)
+__Fedora Build and minor adjustments__ by [__Fahad Hossain__](http://bitbucket.org/fa7ad)
 
 _Licensed under Mozilla Public License 1.1 ("MPLv1.1"), an open source/free software license._

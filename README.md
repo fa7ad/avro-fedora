@@ -16,7 +16,7 @@ Avro phonetic implementation for Linux in IBus.
 	sudo make install
 ```
 ## Installation from Release (m2)
-1. Grab the latest RPM for your Architecture
+1. Grab the latest RPM for your Architecture from [here](https://github.com/fa7ad/avro-fedora/releases)
 2. **Double-click** to open in **GNOME Software**
 3. Click _Install_
  
